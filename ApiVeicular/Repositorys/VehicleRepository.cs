@@ -37,5 +37,27 @@ namespace ApiVeicular.Repositorys
             }
             return null;
         }
+
+        public List<VehicleModel> GetVehicleByModel(string model)
+        {
+            List<VehicleModel> vehiclesToFind = _connection.VehiclesContext.Where(v =>
+            v.Model == model).ToList();
+            return vehiclesToFind;
+        }
+
+        public List<VehicleModel> GetVehiclesByManufactorer(string manufacturer)
+        {
+            List<VehicleModel> vehiclesToFind = _connection.VehiclesContext.Where(v =>
+            v.Manufactorer == manufacturer).ToList();
+            return vehiclesToFind;
+        }
+
+        public List<VehicleModel> GetVehiclesByPriceRange(double initialPrice, double finalPrice)
+        {
+           List<VehicleModel> vehiclesInRange = _connection.VehiclesContext.Where(v => v.Price >= initialPrice &&
+           v.Price <= finalPrice).ToList();
+           return vehiclesInRange;
+        
+        }
     }
 }  

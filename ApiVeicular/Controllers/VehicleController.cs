@@ -1,6 +1,7 @@
 ﻿using ApiVeicular.Models;
 using ApiVeicular.Repositorys;
 using Microsoft.AspNetCore.Mvc;
+using System.Security;
 
 namespace ApiVeicular.Controllers
 {
@@ -37,7 +38,7 @@ namespace ApiVeicular.Controllers
             }
             return NotFound();
         }
-        [HttpDelete("{id}")]
+        [HttpDelete("delete{id}")]
         public IActionResult DeleteVehicleById(int id)
         {
             var vehicle = _vehicleRepository.DeleteVehicleById(id);
@@ -46,6 +47,37 @@ namespace ApiVeicular.Controllers
                 return NoContent();
             }
             return NotFound();
+        }
+        [HttpGet("model/{model}")]
+        public IActionResult GetVehiclesByModel(string model)
+        {
+            List<VehicleModel> vehicleModels = _vehicleRepository.GetVehicleByModel(model);
+            if (vehicleModels.Count == 0)
+            {
+                return NotFound();
+            }
+            return Ok(vehicleModels);
+        }
+        [HttpGet("manufacturer/{manufacturer}")]
+        public IActionResult GetVehiclesByManufacturer(string manufacturer)
+        {
+            List<VehicleModel> vehicleByManufacturer = _vehicleRepository.GetVehiclesByManufactorer(manufacturer);
+            if (vehicleByManufacturer.Count == 0)
+            {
+                return NotFound();
+            }
+            return Ok(vehicleByManufacturer);
+        }
+        [HttpGet("pricebyrange/{initialPrice}/{finalPrice}")]
+        public IActionResult GetVehiclesByPriceRange(double initialPrice, double finalPrice)
+        {
+            List<VehicleModel> vehiclesInPriceRange = _vehicleRepository.
+                GetVehiclesByPriceRange(initialPrice, finalPrice);
+            if (vehiclesInPriceRange.Count == 0)
+            {
+                return NotFound();
+            }
+            return Ok(vehiclesInPriceRange);
         }
     }
 }
